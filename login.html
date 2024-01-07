@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/log.png">
+</head>
+<body>
+    <div id="error-message" class="notification is-danger" style="display: none;"></div>
+    <div class="section">
+        <div class="container">
+            <h1 class="title is-1 has-text-centered">Login</h1>
+            <form id="login-form" class="box" style="width: 600px; margin: 0 auto; height: 350px;">
+                <label class="label pt-5" for="username">Username:</label>
+                <div class="control">
+                    <input class="input mt-2" type="text" id="username" name="username">
+                </div>
+                <label class="label pt-5" for="password">Password:</label>
+                <div class="control has-icons-right">
+                    <input class="input mt-2" type="password" id="password" name="password">
+                    <span class="icon is-small is-right" id="toggle-password">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+                <div class="control is-flex is-justify-content-center pt-6">
+                    <button class="button is-success mr-5" type="button">Login</button>
+                    <button class="button is-success" type="button" onclick="window.location.href='register.html'">Register</button>
+                </div>
+            </form>
+            <div class="control is-flex is-justify-content-center mb-6">
+                <button class="button is-success" id="password-toggle">Show Password</button>
+            </div>
+        </div>
+    </div>
+
+
+   
+    
+    <script>
+        $(document).ready(function () {
+            var passwordInput = $("#password");
+            var passwordToggle = $("#password-toggle");
+            var passwordVisible = false;
+    
+            // Jelszó mutatása/elrejtése
+            passwordToggle.on("click", function () {
+                passwordVisible = !passwordVisible;
+                var passwordType = passwordVisible ? "text" : "password";
+                passwordInput.attr("type", passwordType);
+            });
+    
+            // Űrlap elküldése
+            $("#login-form button.is-success").click(function (e) {
+                e.preventDefault();
+    
+                // AJAX kérés küldése
+                $.ajax({
+                    type: "POST",
+                    url: "loginProcess.php",
+                    data: $("#login-form").serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status === "success") {
+                            // Sikeres bejelentkezés esetén elmentjük a felhasználónevet a local storage-ban
+                            localStorage.setItem("username", $("#username").val());
+    
+                            // Sikeres bejelentkezés esetén átirányítás
+                            window.location.href = response.redirect;
+                        } else {
+                            // Sikertelen bejelentkezés esetén hibaüzenet megjelenítése
+                            $("#error-message").text(response.message).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

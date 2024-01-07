@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script/index.js" defer></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" type="image/x-icon" href="img/log.png">
+</head>
+<body style="background-color: #b7e0c2;">    
+    <header class="header">
+        <div class="header-content">
+            <div class="user-info">
+                <img id="profile-image" src="img/maleUserIcon.png" alt="Profile Image">
+                <div id="loggedin-username">
+                    <span></span>
+                </div>
+            </div>
+            <div class="dropdown-menu" id="customDropdown">
+                <div class="custom-trigger">        
+                    Options
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" id="reloadQuiz">Get An Other Quiz</a>
+                    <a id="logoutBtn" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>   
+
+    <h2 class="title is-2">Quiz Application</h2>
+    <div class="section">
+        <div class="select is-dark">
+            <select style="background-color: #b7e0c2;">
+                <option disabled selected>Select a Category</option>
+            </select>
+        </div>
+    </div>
+    
+
+   
+    <div class="pagination">
+        <button id="prevPage" class="button is-info">&lt; Prev</button>
+        <button id="nextPage" class="button is-info">Next &gt;</button>
+    </div>
+    <div class="container" id="card_container" >
+        <div class="quiz-card ">
+            <div class="question">
+                <h2></h2>
+            </div>
+            <div class="answers">
+                <label class="answer">
+                    <input type="radio" name="asw1">
+                </label>
+                <label class="answer">
+                    <input type="radio" name="asw2"> 
+                </label>
+                <label class="answer">
+                    <input type="radio" name="asw3"> 
+                </label>
+                <label class="answer">
+                    <input type="radio" name="asw4"> 
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div id="questionCounter" class="text has-text-centered is-flex is-justify-content-center mt-6"></div>
+
+    <div id="messageContainer"></div>
+    <div class="buttons">
+        <button class="button" id="submitBtn" style="background-color: #2D7738; color: #fff;">Submit the answers</button>
+        <button class="button" id="addBtn" style="background-color: #2D7738; color: #fff;">Kérdés Hozzáadása</button>
+        <input type="hidden" id="initialQuizNumber" name="initialQuizNumber" value="0">
+    </div>
+    <script>
+        // felhasznónev eltárolása local storage-ban
+        $(document).ready(function () {
+            const loggedInUserName = localStorage.getItem('username');
+            
+            if (loggedInUserName) {
+                const userName = loggedInUserName;
+                $('#loggedin-username span').text(userName);
+            }
+        });
+        // Kijelentkezés gomb eseménykezelője
+        $(document).on('click', '#logoutBtn', function () {
+            // Töröljük a local storage-ban tárolt adatokat
+            localStorage.removeItem('username');
+            // Visszairányítás a bejelentkezési oldalra
+            window.location.href = 'login.html';
+        });
+        // Oldal újratöltése
+        $(document).ready(function () {
+            $('#reloadQuiz').click(function (event) {
+
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

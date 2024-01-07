@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Evaluation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="script/evaluate.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="img/log.png">
+    <link rel="stylesheet" href="css/evaluation.css">
+    <style>
+        table thead {
+            background-color: #01987A;
+            color: white;   
+        }
+
+        .correct-answer-row {
+                background-color: #8dc149; /* Adjust the color as needed */
+                color: white;
+                font-weight: bold;
+            }
+
+    </style>
+
+</head>
+<body style="background-color: #A6CF98;">
+    <header class="header">
+        <div class="header-content">    
+            <div class="user-info">
+                <img id="profile-image" src="img/maleUserIcon.png" alt="Profile Image">
+                <div id="loggedin-username">
+                    <span></span>
+                </div>
+            </div>
+            <div class="dropdown-menu" id="customDropdown">
+                <div class="custom-trigger">
+                    Menu
+                </div>
+                <div class="dropdown-content">
+                    <a href="#" id="reloadQuiz">Get An Other Quiz</a>
+                    <a id="logoutBtn" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>   
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Quiz Evaluation</h1>
+            <table class="table is-bordered is-striped is-narrow is-hoverable">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Correct Answer</th>
+                        <th>Your Answer</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody id="evaluation-table-body">
+                    <!-- Placeholder for dynamically generated content -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <script>
+        // felhasznónev eltárolása local storage-ban
+        $(document).ready(function () {
+            const loggedInUserName = localStorage.getItem('username');
+            
+            if (loggedInUserName) {
+                const userName = loggedInUserName;
+                $('#loggedin-username span').text(userName);
+            }
+        });
+        // Kijelentkezés gomb eseménykezelője
+        $(document).on('click', '#logoutBtn', function () {
+            // Töröljük a local storage-ban tárolt adatokat
+            localStorage.removeItem('username');
+            // Visszairányítás a bejelentkezési oldalra
+            window.location.href = 'login.html';
+        });
+        // Új Quiz generálása
+        $(document).ready(function () {
+            $('#reloadQuiz').click(function (event) {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>

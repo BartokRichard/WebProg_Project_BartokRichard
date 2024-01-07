@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="img/log.png">
+</head>
+<body>
+    <div class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <h1 class="title is-1 has-text-centered">Registration</h1>
+                    <form id="registration-form" method="post">
+                        <div class="field">
+                            <label class="label" for="username">Username:</label>
+                            <div class="control">
+                                <input class="input" type="text" id="username" name="username" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="password">Password:</label>
+                            <div class="control">
+                                <input class="input" type="password" id="password" name="password" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="confirm-password">Confirm Password:</label>
+                            <div class="control">
+                                <input class="input" type="password" id="confirm-password" name="confirm-password" required>
+                                <p class="help is-danger" id="password-match-error" style="display: none;">Passwords do not match.</p>
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <div class="control">
+                                <button class="button is-primary" type="submit">Register</button>
+                            </div>
+                            <div class="control">
+                                <button class="button is-link" type="reset">Clear</button>
+                            </div>
+                            <div class="control">
+                                <button class="button is-success" type="button" onclick="window.location.href='login.html'">Login</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#registration-form").submit(function (e) {
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+    
+                if (password !== confirmPassword) {
+                    $("#password-match-error").show();
+                    e.preventDefault();
+                } else {
+                    $("#password-match-error").hide();
+    
+                    $.ajax({
+                        type: "POST",
+                        url: "uploadUsers.php",
+                        data: $(this).serialize(),
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);  // Add this line to check the response in the console
+                            if (response.status === "success") {
+                                localStorage.setItem("username", $("#username").val());
+                                window.location.href = "index.html";
+                            } else {
+                                $("#registration-form").prepend('<div id="error-message" class="notification is-danger">' + response.message + '</div>');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
