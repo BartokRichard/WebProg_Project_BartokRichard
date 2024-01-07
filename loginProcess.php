@@ -10,7 +10,7 @@ class Login {
         $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
         $result = $conn->query($sql);
 
-        // Minden bejelentkezési kísérlet előtt töröljük az összes előző hibaüzenetet
+        // Töröljök a hibákat, bejelentkezés előtt
         unset($_SESSION['error_messages']);
 
         if ($result->num_rows > 0) {
@@ -22,7 +22,6 @@ class Login {
             
             return json_encode(['status' => 'success', 'redirect' => 'index.html']);
         } else {
-            // Sikertelen bejelentkezés esetén csak az utolsó hibaüzenetet tároljuk el
             $_SESSION['error_messages'][] = "Hibás felhasználónév vagy jelszó";
             return json_encode(['status' => 'error', 'message' => end($_SESSION['error_messages'])]);
         }

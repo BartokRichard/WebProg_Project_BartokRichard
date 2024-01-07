@@ -1,15 +1,12 @@
 $(document).ready(function() {
-    // AJAX hívás az evaluation.php fájlhoz
     $.ajax({
         url: 'evaluation.php',
         method: 'GET',
         dataType: 'json',
         success: function(response) {
-            // Kezeld a JSON választ itt, például az értékelési táblázat frissítése
             if (response.error) {
                 console.error(response.error);
             } else {
-                // Frissítsd a táblázatot az értékelési adatokkal
                 updateEvaluationTable(response);
             }
         },
@@ -21,15 +18,14 @@ $(document).ready(function() {
     function updateEvaluationTable(data) {
         // Frissítsd a táblázatot az értékelési adatokkal
         var tbody = $('#evaluation-table-body');
-        var correctAnswersCount = 0; // Count of correct answers
+        var correctAnswersCount = 0; 
     
         data.forEach(function(item) {
             var rowClass = item.resultClass;
     
-            // If the answer is correct, add a special class for highlighting
             if (item.resultText === 'Correct') {
                 correctAnswersCount++;
-                rowClass += ' correct-answer-row'; // Add a custom class for highlighting correct answers
+                rowClass += ' correct-answer-row'; 
             }
     
             var row = '<tr class="' + rowClass + '">';
@@ -42,7 +38,6 @@ $(document).ready(function() {
             tbody.append(row);
         });
     
-        // Add a row at the end displaying the total number of correct answers
         var totalRow = '<tr class="is-info">';
         totalRow += '<td colspan="3" class="has-text-centered"><strong>Total Correct Answers:</strong></td>';
         totalRow += '<td>' + correctAnswersCount + '</td>';

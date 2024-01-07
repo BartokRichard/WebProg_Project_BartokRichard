@@ -5,8 +5,7 @@ $(document).ready(function () {
     let userId = 0;
     let userName = '';
     let currentSlide = 0;
-    let data; // Új változó az AJAX válasz tárolására
-
+    let data; 
     function loadQuestionsByCategory(selectedCategory) {
         const finalApiUrl = selectedCategory === 'all' ? apiUrl : apiUrl + selectedCategory;
 
@@ -14,7 +13,7 @@ $(document).ready(function () {
             url: finalApiUrl,
             method: 'GET',
             success: function (responseData) {
-                data = responseData; // Frissítjük a data változót.
+                data = responseData; 
                 const cardContainer = $('#card_container');
                 const slidesContainer = $('<div>').addClass('slides-container');
 
@@ -25,7 +24,7 @@ $(document).ready(function () {
                     cards.push(card);
                 });
 
-                // Sorok kialakítása
+            
                 const rows = chunkArray(cards, 4);
 
                 rows.forEach((row, index) => {
@@ -70,7 +69,7 @@ $(document).ready(function () {
         
             currentSlide = index;
         
-            // Calculate the current question number based on the new category's data
+            // A kérdések sorszámának kiszámítása
             const questionsPerPage = 4;
             const currentQuestionNumber = index * questionsPerPage + 1;
             const totalQuestions = data.results.length;
@@ -78,7 +77,7 @@ $(document).ready(function () {
             const questionsInCurrentSlide = Math.min(questionsPerPage, totalQuestions - currentQuestionNumber + 1);
             const lastQuestionInCurrentSlide = currentQuestionNumber + questionsInCurrentSlide - 1;
         
-            // Update the counter text
+
             const counterText = `Questions: ${lastQuestionInCurrentSlide}/${totalQuestions}`;
             $('#questionCounter').text(counterText);
         }
@@ -172,7 +171,7 @@ $(document).ready(function () {
     $('.select select').on('change', function() {
         const selectedCategory = $(this).val();
         if (selectedCategory !== 'all') {
-            quizNumber = 1; // Reset quizNumber to 1 when a new category is selected
+            quizNumber = 1; 
         }
         loadQuestionsByCategory(selectedCategory);
     });

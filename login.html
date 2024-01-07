@@ -52,11 +52,9 @@
                 passwordInput.attr("type", passwordType);
             });
     
-            // Űrlap elküldése
             $("#login-form button.is-success").click(function (e) {
                 e.preventDefault();
     
-                // AJAX kérés küldése
                 $.ajax({
                     type: "POST",
                     url: "loginProcess.php",
@@ -64,13 +62,10 @@
                     dataType: "json",
                     success: function (response) {
                         if (response.status === "success") {
-                            // Sikeres bejelentkezés esetén elmentjük a felhasználónevet a local storage-ban
                             localStorage.setItem("username", $("#username").val());
     
-                            // Sikeres bejelentkezés esetén átirányítás
                             window.location.href = response.redirect;
                         } else {
-                            // Sikertelen bejelentkezés esetén hibaüzenet megjelenítése
                             $("#error-message").text(response.message).show();
                         }
                     }

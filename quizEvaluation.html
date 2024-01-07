@@ -55,13 +55,12 @@
                     </tr>
                 </thead>
                 <tbody id="evaluation-table-body">
-                    <!-- Placeholder for dynamically generated content -->
+
                 </tbody>
             </table>
         </div>
     </section>
     <script>
-        // felhasznónev eltárolása local storage-ban
         $(document).ready(function () {
             const loggedInUserName = localStorage.getItem('username');
             
@@ -70,14 +69,10 @@
                 $('#loggedin-username span').text(userName);
             }
         });
-        // Kijelentkezés gomb eseménykezelője
         $(document).on('click', '#logoutBtn', function () {
-            // Töröljük a local storage-ban tárolt adatokat
             localStorage.removeItem('username');
-            // Visszairányítás a bejelentkezési oldalra
             window.location.href = 'login.html';
         });
-        // Új Quiz generálása
         $(document).ready(function () {
             $('#reloadQuiz').click(function (event) {
                 window.location.href = 'index.html';

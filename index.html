@@ -76,7 +76,6 @@
         <input type="hidden" id="initialQuizNumber" name="initialQuizNumber" value="0">
     </div>
     <script>
-        // felhasznónev eltárolása local storage-ban
         $(document).ready(function () {
             const loggedInUserName = localStorage.getItem('username');
             
@@ -85,15 +84,12 @@
                 $('#loggedin-username span').text(userName);
             }
         });
-        // Kijelentkezés gomb eseménykezelője
+        
         $(document).on('click', '#logoutBtn', function () {
-            // Töröljük a local storage-ban tárolt adatokat
             localStorage.removeItem('username');
-            // Visszairányítás a bejelentkezési oldalra
             window.location.href = 'login.html';
         });
-        // Oldal újratöltése
-        $(document).ready(function () {
+               $(document).ready(function () {
             $('#reloadQuiz').click(function (event) {
 
                 location.reload();
